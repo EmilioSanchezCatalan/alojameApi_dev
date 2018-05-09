@@ -83,8 +83,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       cities_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'Cities',
+          key: 'id'
+        }
       },
       available_date: {
         type: Sequelize.DATE

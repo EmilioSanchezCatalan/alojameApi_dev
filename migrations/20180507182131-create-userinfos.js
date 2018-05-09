@@ -45,12 +45,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       users_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       userpicture_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'UserPictures',
+          key: 'id'
+        }
       },
       description: {
         type: Sequelize.STRING(400)
@@ -80,7 +90,13 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       countries_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: false,
+        references: {
+          model: 'Countries',
+          key: 'id'
+        }
       },
       country_private: {
         allowNull: false,

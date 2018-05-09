@@ -1,20 +1,30 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Provinces', {
+    return queryInterface.createTable('HomePictures_Has_Homes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      homepictures_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.STRING(50)
+        references: {
+          model: 'HomePictures',
+          key: 'id'
+        }
       },
-      countries_id: {
+      homes_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'Homes',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -27,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Provinces');
+    return queryInterface.dropTable('HomePictures_Has_Homes');
   }
 };

@@ -1,46 +1,34 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users_Valoration_Homes', {
+    return queryInterface.createTable('Cities', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      users_id: {
+      name: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
+      provinces_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'Provinces',
           key: 'id'
         }
       },
-      home_id: {
+      countries_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
         references: {
-          model: 'Homes',
+          model: 'Countries',
           key: 'id'
         }
-      },
-      modern: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      appliances: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      location: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      comfortable: {
-        allowNull: false,
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -53,6 +41,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users_valoration_homes');
+    return queryInterface.dropTable('Cities');
   }
 };

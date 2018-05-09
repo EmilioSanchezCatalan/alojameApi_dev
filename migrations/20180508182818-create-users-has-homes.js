@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users_Valoration_Homes', {
+    return queryInterface.createTable('Users_Has_Homes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,7 +17,7 @@ module.exports = {
           key: 'id'
         }
       },
-      home_id: {
+      homes_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
@@ -25,22 +25,6 @@ module.exports = {
           model: 'Homes',
           key: 'id'
         }
-      },
-      modern: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      appliances: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      location: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      comfortable: {
-        allowNull: false,
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -53,6 +37,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users_valoration_homes');
+    return queryInterface.dropTable('Users_Has_Homes');
   }
 };

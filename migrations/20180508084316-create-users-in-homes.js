@@ -9,12 +9,22 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       users_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
       homes_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'Homes',
+          key: 'id'
+        }
       },
       roomer: {
         allowNull: false,

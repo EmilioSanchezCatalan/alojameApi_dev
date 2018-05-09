@@ -1,34 +1,25 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users_Message_Users', {
+    return queryInterface.createTable('Provinces', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      users_send: {
+      name: {
+        allowNull: false,
+        type: Sequelize.STRING(50)
+      },
+      countries_id: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'Countries',
           key: 'id'
         }
-      },
-      users_recv: {
-        type: Sequelize.INTEGER,
-        onDelete: "CASCADE",
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
-      },
-      message: {
-        allowNull: false,
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +32,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users_message_users');
+    return queryInterface.dropTable('Provinces');
   }
 };

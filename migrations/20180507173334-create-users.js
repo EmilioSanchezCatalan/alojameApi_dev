@@ -21,8 +21,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       usergroups_id: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         allowNull: false,
-        type: Sequelize.INTEGER
+        references: {
+          model: 'UsersGroups',
+          key: 'id'
+        }
       },
       last_login: {
         type: Sequelize.DATE
