@@ -11,7 +11,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   HomeType.associate = function(models) {
-    // associations can be defined here
+
+    models.HomeType.hasMany(models.Homes, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
   };
   return HomeType;
 };

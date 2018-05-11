@@ -11,7 +11,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   UsersGroup.associate = function(models) {
-    // associations can be defined here
+
+    models.UsersGroup.hasMany(models.Users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
+
   };
   return UsersGroup;
 };

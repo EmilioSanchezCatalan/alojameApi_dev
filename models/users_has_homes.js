@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
     homes_id: DataTypes.INTEGER
   }, {});
   Users_Has_Homes.associate = function(models) {
-    // associations can be defined here
   };
   return Users_Has_Homes;
 };

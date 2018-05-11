@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Userinfos = sequelize.define('Userinfos', {
     name: {
@@ -153,7 +153,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Userinfos.associate = function(models) {
-    // associations can be defined here
+
+    models.Userinfos.belongsTo(models.Users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
+
+    models.Userinfos.belongsTo(models.UserPicture, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
   };
   return Userinfos;
 };

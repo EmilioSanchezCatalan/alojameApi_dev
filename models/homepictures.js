@@ -22,7 +22,16 @@ module.exports = (sequelize, DataTypes) => {
     temp: DataTypes.STRING
   }, {});
   HomePictures.associate = function(models) {
-    // associations can be defined here
+
+    models.HomePictures.belongsToMany(models.Homes, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homepictures_id"
+      },
+      through: "HomePictures_Has_Homes"
+    });
+
   };
   return HomePictures;
 };

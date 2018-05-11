@@ -23,7 +23,20 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   Cities.associate = function(models) {
-    // associations can be defined here
+
+    models.Cities.belongsTo(models.Provinces, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
+
+    models.Cities.belongsTo(models.Countries, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
   };
   return Cities;
 };

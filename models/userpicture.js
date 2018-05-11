@@ -36,7 +36,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
   UserPicture.associate = function(models) {
-    // associations can be defined here
+
+    models.UserPicture.hasMany(models.Userinfos, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
+
   };
   return UserPicture;
 };

@@ -163,7 +163,73 @@ module.exports = (sequelize, DataTypes) => {
     available_date: DataTypes.DATE
   }, {});
   Homes.associate = function(models) {
-    // associations can be defined here
+
+    models.Homes.belongsToMany(models.HomeBill, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homes_id"
+      },
+      as: "HomeBill_Hass_Homes",
+      through: "HomeBill_Has_Homes"
+    });
+
+    models.Homes.belongsToMany(models.HomePictures, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homes_id"
+      },
+      as: "HomePictures_Hass_Homes",
+      through: "HomePictures_Has_Homes"
+    });
+
+    models.Homes.belongsToMany(models.HomeRules, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homes_id"
+      },
+      as: "Homerules_Hass_Homes",
+      through: "Homerules_Has_Homes"
+    });
+
+    models.Homes.belongsToMany(models.HomeServices, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homes_id"
+      },
+      as: "Homeservices_Hass_Homes",
+      through: "Homeservices_Has_Homes"
+    });
+
+    models.Homes.belongsTo(models.HomeType, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false
+      }
+    });
+
+    models.Homes.belongsToMany(models.Users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homes_id"
+      },
+      as: "Users_Hass_Homes",
+      through: "Users_Has_Homes"
+    });
+
+    models.Homes.belongsToMany(models.Users, {
+      onDelete: "CASCADE",
+      foreignKey: {
+        allowNull: false,
+        name: "homes_id"
+      },
+      as: "Users_Inn_Homes",
+      through: "Users_In_Homes"
+    });
   };
   return Homes;
 };
