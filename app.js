@@ -7,7 +7,7 @@ var passport = require('passport');
 var SamlStrategy = require('passport-saml').Strategy;
 
 var indexRouter = require('./routes/index');
-var authRouter = require('./routes/auth');
+var authRouter = require('./routes/saml-auth');
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/xxx', authRouter);
+app.use('/saml-auth', authRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
