@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     models.UsersGroup.hasMany(models.Users, {
       onDelete: "CASCADE",
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'usergroups_id'
       }
     });
 

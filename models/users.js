@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     models.UsersGroup.belongsTo(models.Users, {
       onDelete: "CASCADE",
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'usergroups_id'
       }
     });
 

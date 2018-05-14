@@ -1,0 +1,7 @@
+{
+  "development": {
+    "path": "/xxx/login/callback",
+    "entryPoint": "http://idp.simplesaml.local/simplesaml/saml2/idp/SSOService.php",
+    "issuer": "http://localhost:3000/"
+  }
+}
