@@ -1,17 +1,16 @@
 var
-  createError = require('http-errors');
-  express = require('express');
-  bodyParser = require('body-parser');
-  path = require('path');
-  cookieParser = require('cookie-parser');
-  logger = require('morgan');
-  passport = require('passport');
-  SamlStrategy = require('passport-saml').Strategy;
+    createError = require('http-errors'),
+    express = require('express'),
+    bodyParser = require('body-parser'),
+    path = require('path'),
+    cookieParser = require('cookie-parser'),
+    logger = require('morgan'),
+    passport = require('passport');
 
 var
-  indexRouter = require('./routes/index');
-  samlAuthRouter = require('./routes/saml-auth');
-  simpleAuthRouter = require('./routes/simple-auth');
+    indexRouter = require('./routes/index'),
+    samlAuthRouter = require('./routes/saml-auth'),
+    simpleAuthRouter = require('./routes/simple-auth');
 
 var app = express();
 
@@ -34,18 +33,18 @@ app.use('/simple-auth', simpleAuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function(err, req, res) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 module.exports = app;

@@ -1,17 +1,32 @@
 var express = require('express');
 var router = express.Router();
-var models = require('../models');
 var auth = require('../class/auth');
 
-/* GET users listing. */
-router.post('/register', function(req, res, next) {
-  auth.register('pruebas', 'pass', 'pruebagmail.com')
-  .then(response => {
-    res.send(response);
-  }).catch( error => {
-    console.log('Entra en error');
-    res.status(400).send(error);
-  });
+router.post('/register', function(req, res) {
+    auth.registerOWN(req.body.username, req.body.password, req.body.email)
+        .then(response => {
+            res.send(response);
+        }).catch( error => {
+            res.status(400).send(error);
+        });
+});
+
+router.post('/login', function(req, res){
+    auth.login(req.body.username, req.body.password)
+        .then( response => {
+            res.send(response);
+        }).catch( error => {
+            res.send(error);
+        });
+});
+
+router.get('/login-verify', (req, res) => {
+    auth.verifyToken(req.get('Authorization'))
+        .then( response => {
+            res.send(response);
+        }).catch( error => {
+            res.send(error);
+        });
 });
 
 module.exports = router;
