@@ -5,7 +5,7 @@ var models = require('../models');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   models.Users.findAll().then( response => {
-    res.send(response)
+    res.send(response);
   })
 });
 

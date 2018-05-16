@@ -1,14 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var passport = require('passport');
-var SamlStrategy = require('passport-saml').Strategy;
+var
+  createError = require('http-errors');
+  express = require('express');
+  bodyParser = require('body-parser');
+  path = require('path');
+  cookieParser = require('cookie-parser');
+  logger = require('morgan');
+  passport = require('passport');
+  SamlStrategy = require('passport-saml').Strategy;
 
-var indexRouter = require('./routes/index');
-var authRouter = require('./routes/saml-auth');
-var usersRouter = require('./routes/users');
+var
+  indexRouter = require('./routes/index');
+  samlAuthRouter = require('./routes/saml-auth');
+  simpleAuthRouter = require('./routes/simple-auth');
 
 var app = express();
 
@@ -17,15 +20,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(passport.initialize());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
-app.use('/saml-auth', authRouter);
-app.use('/users', usersRouter);
+app.use('/saml-auth', samlAuthRouter);
+app.use('/simple-auth', simpleAuthRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
