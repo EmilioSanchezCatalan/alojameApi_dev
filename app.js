@@ -1,5 +1,4 @@
 var
-    createError = require('http-errors'),
     express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
@@ -8,9 +7,16 @@ var
     passport = require('passport');
 
 var
+    message = require('./class/message');
+
+const
+    MESSAGE = require('./class/messages-response'),
+    HTTP = require('./class/http-status-codes');
+
+var
     indexRouter = require('./routes/index'),
-    samlAuthRouter = require('./routes/saml-auth'),
-    simpleAuthRouter = require('./routes/simple-auth');
+    privateRouter = require('./routes/private'),
+    publicRouter = require('./routes/public');
 
 var app = express();
 
@@ -28,12 +34,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
 app.use('/', indexRouter);
-app.use('/saml-auth', samlAuthRouter);
-app.use('/simple-auth', simpleAuthRouter);
+app.use('/private', privateRouter);
+app.use('/public', publicRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
+app.use(function(req, res) {
+    res.status(404).send( new message('global', 'undefined', HTTP.STATUS_NOT_FOUND, MESSAGE.ROUTE_NOT_EXIST, true) );
 });
 
 // error handler

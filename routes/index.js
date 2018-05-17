@@ -1,12 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var models = require('../models');
+var
+    express = require('express'),
+    router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    models.Users.findAll().then( response => {
-        res.send(response);
-    });
+    res.append('Content-type', 'text/html');
+    res.send('<h1>Bienvenido a la Api de Alojame');
 });
 
 module.exports = router;

@@ -16,7 +16,10 @@ const MESSAGE = {
     'AUTH_FAIL': 'Error en la autenticación',
 
     // Auth token not valid
-    'AUTH_TOKEN_FAIL': 'AuthToken no valido'
+    'AUTH_TOKEN_FAIL': 'AuthToken no valido',
+
+    // route not exist
+    'ROUTE_NOT_EXIST': 'Lo sentimos pero dicha ruta no existe'
 };
 
 

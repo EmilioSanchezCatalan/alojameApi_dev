@@ -1,8 +1,8 @@
 var
     express = require('express'),
     router = express.Router(),
-    passport = require('../class/passport'),
-    auth = require('../class/auth');
+    passport = require('../../class/passport'),
+    auth = require('../../class/auth');
 
 
 /**

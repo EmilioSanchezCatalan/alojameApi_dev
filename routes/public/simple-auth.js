@@ -1,9 +1,9 @@
 var
     express = require('express'),
     router = express.Router(),
-    auth = require('../class/auth');
+    auth = require('../../class/auth');
 
-var ROLS = require('../class/users-rols');
+var ROLS = require('../../class/users-rols');
 
 router.post('/register', function(req, res) {
     auth.registerOWN(req.body.username, req.body.password, req.body.email, req.body.name, req.body.surname, req.body.birthdate)
