@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
         models.Users.hasOne(models.Userinfos, {
             onDelete: 'CASCADE',
             foreignKey: {
-                allowNull: false
+                allowNull: false,
+                name: 'users_id'
             }
         });
 
         models.UsersGroup.belongsTo(models.Users, {
             onDelete: 'CASCADE',
             foreignKey: {
-                allowNull: true,
                 name: 'usergroups_id'
             }
         });

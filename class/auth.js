@@ -9,13 +9,8 @@ const Op = sequelize.Op;
 
 const
     MESSAGE = require('./messages-response'),
-    HTTP = require('./http-status-codes');
-
-const
-    ADMIN_GROUP = 1,
-    OWNER_GROUP = 2,
-    STUDENT_GROUP = 3;
-
+    HTTP = require('./http-status-codes'),
+    ROLS = require('./users-rols');
 
 class Auth {
 
@@ -32,87 +27,113 @@ class Auth {
     }
 
     /**
-   * Check if the username is already in use
-   * @param  {string}  username username chose by the user
-   * @return {Promise}          promise wicth indicate if the user exist.
-   */
-    static existUsername(username) {
+     * Create a new owner user
+     * @param  {string}  username  username that indentify the user on the web
+     * @param  {string}  passsword password hash of the user
+     * @param  {string}  email     email of the user
+     * @param  {string}  name      real name of the user
+     * @param  {string}  surname   real surname of the user
+     * @param  {string}  birthdate real birthdate of the user
+     * @return {Promise}           set if the user is created or not
+     */
+    static creatNewUserOwner(username, passsword, email, name, surname, birthdate) {
         return new Promise( (resolve, reject) => {
-            models.Users.findOne({ where: {username: username} }).then( response => {
-                return response === null ? resolve() : reject(new message('create', 'Users', HTTP.STATUS_BAD_REQUEST, MESSAGE.USERNAME_EXIST, true));
+            models.Users.create({
+                username: username,
+                email: email,
+                password: this.hashPassword(passsword),
+                usergroups_id: ROLS.OWNER_GROUP
+            }).then( response => {
+                models.Userinfos.create({
+                    users_id: response.id,
+                    name: name,
+                    surname: surname,
+                    birthdate: birthdate,
+                    name_private: true,
+                    surname_private: true,
+                    birthdate_private: true,
+                    phone_private: true,
+                    homeaddress_private: true,
+                    email_private: true,
+                    country_private: true
+                }).then( ()=> {
+                    resolve();
+                }).catch( error => {
+                    reject(error);
+                });
+            }).catch( error => {
+                reject(error);
             });
         });
     }
 
+
     /**
-   * Check if the email is already in use
-   * @param  {string}  email username chose by the user
-   * @return {Promise}       promise wicth indicate if the user exist.
+   * Register a user onwer in a DDBB
+   * @param  {string}  username  username that indentify the user
+   * @param  {string}  passsword password in plain text
+   * @param  {string}  email     email of the user
+   * @param  {string}  name      real name of the user
+   * @param  {string}  surname   real surname of the user
+   * @param  {string}  birthdate real birthdate of the user
+   * @return {Promise}           return a promise after save the informatión on the DB
    */
-    static existEmail(email) {
+    static registerOWN(username, passsword, email, name, surname, birthdate) {
         return new Promise( (resolve, reject) => {
-            models.Users.findOne({ where: {email: email} }).then( response => {
-                return response === null ? resolve() : reject(new message('create', 'Users', HTTP.STATUS_BAD_REQUEST, MESSAGE.EMAIL_EXIST, true));
-            });
+
+            //Check the username and the email
+            this.creatNewUserOwner(username, passsword, email, name, surname, birthdate)
+                .then( () => {
+                    resolve(new message('create', 'Users', HTTP.STATUS_CREATED, MESSAGE.OK, false));
+                }).catch( error => {
+                    reject(error);
+                });
         });
     }
 
     /**
    * Register a user onwer in a DDBB
-   * @param  {string} username  username that indentify the user
-   * @param  {string} passsword password in plain text
-   * @param  {string} email     email of the user
-   * @return {promise}          return a promise after save the informatión on the DB
+   * @param  {string}  username  username that indentify the user
+   * @param  {string}  passsword password in plain text
+   * @param  {string}  email     email of the user
+   * @param  {string}  name      real name of the user
+   * @return {Promise}           return a promise after save the informatión on the DB
    */
-    static registerOWN(username, passsword, email) {
+    static registerSTD(username, password, email, name) {
         return new Promise( (resolve, reject) => {
-
-            //Check the username and the email
-            Promise.all([
-                this.existUsername(username),
-                this.existEmail(email),
-                models.Users.create({
+            models.Users.findOrCreate({
+                where: { username: username},
+                defaults: {
                     username: username,
                     email: email,
-                    password: this.hashPassword(passsword),
-                    usergroups_id: OWNER_GROUP
-                })
-            ]).then( () => {
-                resolve(new message('create', 'Users', HTTP.STATUS_CREATED, MESSAGE.OK, false));
-            }).catch( error => {
-                reject(error);
+                    password: this.hashPassword(username),
+                    usergroups_id: ROLS.STUDENT_GROUP
+                }
+            }).spread( (user, created) => {
+                if (created) {
+                    models.Userinfos.findOrCreate({
+                        where: { users_id: user.id },
+                        defaults: {
+                            users_id: user.id,
+                            name: name,
+                            name_private: true,
+                            surname_private: true,
+                            birthdate_private: true,
+                            phone_private: true,
+                            homeaddress_private: true,
+                            email_private: true,
+                            country_private: true
+                        }
+                    }).spread( () => {
+                        resolve(user);
+                    }).catch( error => {
+                        reject(error);
+                    });
+                }
+                else resolve(user);
             });
         });
     }
-
-    /**
-   * Register a user student in a DDBB
-   * @param  {string} username  username that indentify the user
-   * @param  {string} passsword password in plain text
-   * @param  {string} email     email of the user
-   * @return {promise}          return a promise after save the informatión on the DB
-   */
-    static registerSTD(username, passsword, email) {
-        return new Promise( (resolve, reject) => {
-
-            //Check the username and the email
-            Promise.all([
-                this.existUsername(username),
-                this.existEmail(email),
-                models.Users.create({
-                    username: username,
-                    email: email,
-                    password: this.hashPassword(passsword),
-                    usergroups_id: STUDENT_GROUP
-                })
-            ]).then( () => {
-                resolve(new message('create', 'Users', HTTP.STATUS_CREATED, MESSAGE.OK, false));
-            }).catch( error => {
-                reject(error);
-            });
-        });
-    }
-
 
     /**
      * Verify the autentication of the user
@@ -124,6 +145,7 @@ class Auth {
         return new Promise( (resolve, reject) => {
             models.Users.findOne({
                 where: {
+                    usergroups_id: ROLS.OWNER_GROUP,
                     password: this.hashPassword(password),
                     [Op.or]: [
                         { username: username },
@@ -163,8 +185,11 @@ class Auth {
                 response.update({
                     authtoken: authToken,
                     last_login: Date.now()
+                }).then( () => {
+                    resolve( { token: authToken } );
+                }).catch( error => {
+                    reject(error);
                 });
-                resolve( { token: this.generateToken(response.username, response.usergroups_id, response.password) });
             }).catch( error => {
                 reject(error);
             });
@@ -172,28 +197,56 @@ class Auth {
     }
 
     /**
+     * [loginSTD description]
+     * @param  {[type]} username [description]
+     * @param  {[type]} email    [description]
+     * @param  {[type]} name     [description]
+     * @param  {[type]} token    [description]
+     * @return {[type]}          [description]
+     */
+    static loginSTD(username, email, name, token) {
+        return new Promise( (resolve, reject) => {
+            this.registerSTD(username, token, email, name)
+                .then( response => {
+                    let authToken = this.generateToken(response.username, response.usergroups_id, response.password);
+                    response.update({
+                        authtoken: authToken,
+                        last_login: Date.now()
+                    }).then( () => {
+                        resolve( { token: authToken });
+                    }).catch( error => {
+                        reject(error);
+                    });
+                }).catch( error => {
+                    reject(error);
+                });
+        });
+    }
+
+    /**
      * Verify that the auth token is correct
-     * @param  {[type]} token token that it's going to be verify
+     * @param  {string  } token token that it's going to be verify
+     * @param  {integer} usergroup
      * @return {[type]}       promise with the response if the auth token is correct or not
      */
-    static verifyToken(token) {
+    static verifyToken(token, usergroup) {
         return new Promise( (resolve, reject) => {
             models.Users.findOne({ where: { authtoken: token }}).then( response => {
-
                 // Error when token is not in DDDBB
                 if (response === null )
                     reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true));
-
-                jwt.verify(token, response.password, (error, decoded) => {
-                    if (error)
-                        reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true));
-                    else {
-                        if ( response.username === decoded.username && response.usergroups_id === decoded.usergroup)
-                            resolve( new message('login-verify', 'Users', HTTP.STATUS_OK, MESSAGE.OK, false) );
-                        else
-                            reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true) );
-                    }
-                });
+                else {
+                    jwt.verify(token, response.password, (error, decoded) => {
+                        if (error)
+                            reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true));
+                        else {
+                            if ( response.username === decoded.username && response.usergroups_id === decoded.usergroup && decoded.usergroup === usergroup)
+                                resolve( new message('login-verify', 'Users', HTTP.STATUS_OK, MESSAGE.OK, false) );
+                            else
+                                reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true) );
+                        }
+                    });
+                }
             });
         });
     }

@@ -81,10 +81,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         users_id: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             validate: {
                 min: 0,
                 max: 2147483647,
-                notNull: true,
             }
         },
         userpicture_id: {
@@ -103,53 +103,44 @@ module.exports = (sequelize, DataTypes) => {
         },
         name_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
         },
         surname_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
+
         },
         birthdate_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
+
         },
         phone_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
+
         },
         homeaddress_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
+
         },
         email_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
+
         },
         countries_id: {
             type: DataTypes.INTEGER,
             validate: {
-                notNull: true,
                 max: 2147483647,
                 min: 1
             }
         },
         country_private: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true
-            }
+            allowNull: false
+
         }
     }, {});
     Userinfos.associate = function(models) {
@@ -157,15 +148,16 @@ module.exports = (sequelize, DataTypes) => {
         models.Userinfos.belongsTo(models.Users, {
             onDelete: 'CASCADE',
             foreignKey: {
-                allowNull: false
+                name: 'users_id'
             }
         });
 
         models.Userinfos.belongsTo(models.UserPicture, {
             onDelete: 'CASCADE',
             foreignKey: {
-                allowNull: false
+                name: 'userpicture_id'
             }
+            
         });
     };
     return Userinfos;

@@ -56,7 +56,7 @@ module.exports = {
             userpicture_id: {
                 type: Sequelize.INTEGER,
                 onDelete: 'CASCADE',
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: 'UserPictures',
                     key: 'id'
@@ -92,7 +92,7 @@ module.exports = {
             countries_id: {
                 type: Sequelize.INTEGER,
                 onDelete: 'CASCADE',
-                allowNull: false,
+                allowNull: true,
                 references: {
                     model: 'Countries',
                     key: 'id'
@@ -112,7 +112,7 @@ module.exports = {
             }
         });
     },
-    down: (queryInterface, Sequelize) => {
+    down: (queryInterface) => {
         return queryInterface.dropTable('Userinfos');
     }
 };

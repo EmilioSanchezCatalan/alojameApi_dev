@@ -10,10 +10,12 @@ module.exports = {
             },
             username: {
                 allowNull: false,
+                unique: true,
                 type: Sequelize.STRING(50)
             },
             email: {
                 allowNull: false,
+                unique: true,
                 type: Sequelize.STRING
             },
             password: {
@@ -45,7 +47,7 @@ module.exports = {
             }
         });
     },
-    down: (queryInterface, Sequelize) => {
+    down: (queryInterface) => {
         return queryInterface.dropTable('Users');
     }
 };
