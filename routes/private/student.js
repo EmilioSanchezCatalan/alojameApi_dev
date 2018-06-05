@@ -1,18 +1,18 @@
 var
-    express = require('express'),
-    router = express.Router(),
-    auth = require('../../class/auth');
+  express = require('express'),
+  router = express.Router(),
+  auth = require('../../class/auth');
 
 const
-    ROLS = require('../../class/users-rols');
+  ROLS = require('../../class/users-rols');
 
 router.all('*', (req, res, next) => {
-    auth.verifyToken(req.get('Authorization'), ROLS.STUDENT_GROUP)
-        .then( () => {
-            next();
-        }).catch( error => {
-            res.send(error);
-        });
+  auth.verifyToken(req.get('Authorization'), ROLS.STUDENT_GROUP)
+    .then( () => {
+      next();
+    }).catch( error => {
+      res.send(error);
+    });
 });
 
 module.exports = router;

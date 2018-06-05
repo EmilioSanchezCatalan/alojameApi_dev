@@ -1,34 +1,34 @@
 var
-    express = require('express'),
-    router = express.Router(),
-    passport = require('../../class/passport'),
-    auth = require('../../class/auth');
+  express = require('express'),
+  router = express.Router(),
+  passport = require('../../class/passport'),
+  auth = require('../../class/auth');
 
 
 /**
  * Initialitation of the login with the IDP
  */
 router.get('/login',
-    passport.authenticate('saml', { failureRedirect: '/login/fail' }),
-    function (req, res) {
-        res.redirect('/');
-    }
+  passport.authenticate('saml', { failureRedirect: '/login/fail' }),
+  function (req, res) {
+    res.redirect('/');
+  }
 );
 
 /**
  * Callback of after the login on the IDP and request the user login params
  */
 router.post('/login/callback',
-    passport.authenticate('saml', { failureRedirect: '/login/fail' }),
-    function(req, res) {
-        console.log(req.user);
-        auth.loginSTD(req.user.uid, req.user.email, req.user.name, req.user.sessionIndex)
-            .then( response => {
-                res.send(response);
-            }).catch( error => {
-                res.send(error);
-            });
-    }
+  passport.authenticate('saml', { failureRedirect: '/login/fail' }),
+  function(req, res) {
+    console.log(req.user);
+    auth.loginSTD(req.user.uid, req.user.email, req.user.name, req.user.sessionIndex)
+      .then( response => {
+        res.send(response);
+      }).catch( error => {
+        res.send(error);
+      });
+  }
 );
 
 /**
@@ -43,9 +43,9 @@ router.post('/login/callback',
  * Message of error when the login failed
  */
 router.get('/login/fail',
-    function(req, res) {
-        res.status(401).send('Login failed');
-    }
+  function(req, res) {
+    res.status(401).send('Login failed');
+  }
 );
 
 module.exports = router;

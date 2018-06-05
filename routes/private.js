@@ -1,9 +1,9 @@
 var
-    express = require('express'),
-    router = express.Router();
+  express = require('express'),
+  router = express.Router();
 var
-    ownerRouter = require('./private/owner'),
-    studentRouter = require('./private/student');
+  ownerRouter = require('./private/owner'),
+  studentRouter = require('./private/student');
 
 router.use('/owner', ownerRouter);
 router.use('/student', studentRouter);
