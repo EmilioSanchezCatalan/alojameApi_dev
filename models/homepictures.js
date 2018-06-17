@@ -3,23 +3,32 @@ module.exports = (sequelize, DataTypes) => {
   var HomePictures = sequelize.define('HomePictures', {
     url: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        notNull: true,
         notEmpty: true,
-        isUrl: true,
         len: [0, 255]
       }
     },
     filename: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        notNull: true,
         notEmpty: true,
-        isUrl:true,
         len: [0, 255]
       }
     },
-    temp: DataTypes.STRING
+    filetype: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [0, 255]
+      }
+    },
+    temp: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false
+    }
   }, {});
   HomePictures.associate = function(models) {
 

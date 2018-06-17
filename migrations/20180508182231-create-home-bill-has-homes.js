@@ -36,7 +36,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('HomeBill_Has_Homes');
   }
 };

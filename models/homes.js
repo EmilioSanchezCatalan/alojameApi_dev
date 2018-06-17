@@ -160,6 +160,14 @@ module.exports = (sequelize, DataTypes) => {
         notNull: true
       }
     },
+    num_home: {
+      type: DataTypes.INTEGER,
+      validate: {
+        max: 2147483647,
+        min: 1,
+        notNull: true
+      }
+    },
     available_date: DataTypes.DATE
   }, {});
   Homes.associate = function(models) {
@@ -229,6 +237,14 @@ module.exports = (sequelize, DataTypes) => {
       },
       as: 'Users_Inn_Homes',
       through: 'Users_In_Homes'
+    });
+
+    models.Homes.hasMany(models.HomeRules, {
+      onDelete: 'CASCADE',
+      foreignKey: {
+        allowNull: false,
+        name: 'homes_id'
+      }
     });
   };
   return Homes;

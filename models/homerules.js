@@ -9,17 +9,24 @@ module.exports = (sequelize, DataTypes) => {
         notNull: true
       }
     },
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    homes_id:{
+      type: DataTypes.INTEGER,
+      validate: {
+        max: 2147483647,
+        min: 1,
+        notNull: true
+      }
+    }
   }, {});
   HomeRules.associate = function(models) {
 
-    models.HomeRules.belongsToMany(models.Homes, {
+    models.HomeRules.belongsTo(models.Homes, {
       onDelete: 'CASCADE',
       foreignKey: {
         allowNull: false,
-        name: 'homerules_id'
-      },
-      through: 'Homerules_Has_Homes'
+        name: 'homes_id'
+      }
     });
 
   };

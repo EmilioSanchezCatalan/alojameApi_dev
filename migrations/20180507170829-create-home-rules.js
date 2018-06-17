@@ -16,6 +16,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      homes_id: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        allowNull: false,
+        references: {
+          model: 'Homes',
+          key: 'id'
+        }
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -26,7 +35,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('HomeRules');
   }
 };

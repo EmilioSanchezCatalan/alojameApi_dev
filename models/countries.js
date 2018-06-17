@@ -15,14 +15,16 @@ module.exports = (sequelize, DataTypes) => {
     models.Countries.hasMany(models.Provinces, {
       onDelete: 'CASCADE',
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'countries_id'
       }
     });
 
     models.Countries.hasMany(models.Cities, {
       onDelete: 'CASCADE',
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'countries_id'
       }
     });
 

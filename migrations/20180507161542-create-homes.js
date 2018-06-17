@@ -94,6 +94,10 @@ module.exports = {
       available_date: {
         type: Sequelize.DATE
       },
+      num_home: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -104,7 +108,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('Homes');
   }
 };

@@ -23,14 +23,16 @@ module.exports = (sequelize, DataTypes) => {
     models.Provinces.hasMany(models.Cities, {
       onDelete: 'CASCADE',
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'provinces_id'
       }
     });
 
     models.Provinces.belongsTo(models.Countries, {
       onDelete: 'CASCADE',
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'countries_id'
       }
     });
 

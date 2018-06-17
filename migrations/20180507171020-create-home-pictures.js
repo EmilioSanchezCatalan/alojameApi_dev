@@ -14,8 +14,11 @@ module.exports = {
       filename: {
         type: Sequelize.STRING
       },
-      temp: {
+      filetype: {
         type: Sequelize.STRING
+      },
+      temp: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -27,7 +30,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('HomePictures');
   }
 };
