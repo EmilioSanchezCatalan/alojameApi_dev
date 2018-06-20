@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
     models.HomeType.hasMany(models.Homes, {
       onDelete: 'CASCADE',
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'typehomes_id'
       }
     });
   };

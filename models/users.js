@@ -69,14 +69,12 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    models.Users.belongsToMany(models.Homes, {
+    models.Users.hasMany(models.Homes, {
       onDelete: 'CASCADE',
       foreignKey: {
         allowNull: false,
         name: 'users_id'
-      },
-      as: 'Users_Hass_Homes',
-      through: 'Users_Has_Homes'
+      }
     });
 
     models.Users.belongsToMany(models.Homes, {

@@ -11,7 +11,8 @@ const
 
 router.all('*', (req, res, next) => {
   auth.verifyToken(req.get('Authorization'), ROLS.OWNER_GROUP)
-    .then( () => {
+    .then( response => {
+      req.user = response.user;
       next();
     }).catch( error => {
       res.send(error);

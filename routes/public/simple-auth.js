@@ -27,7 +27,7 @@ router.post('/login', function(req, res){
 router.get('/login-verify/owner', (req, res) => {
   auth.verifyToken(req.get('Authorization'), ROLS.OWNER_GROUP)
     .then( response => {
-      res.send(response);
+      res.send(response.message);
     }).catch( error => {
       res.send(error);
     });
@@ -36,7 +36,7 @@ router.get('/login-verify/owner', (req, res) => {
 router.get('/login-verify/student', (req, res) => {
   auth.verifyToken(req.get('Authorization'), ROLS.STUDENT_GROUP)
     .then( response => {
-      res.send(response);
+      res.send(response.message);
     }).catch( error => {
       res.send(error);
     });

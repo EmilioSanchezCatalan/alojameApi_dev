@@ -141,7 +141,7 @@ class Auth {
      * Verify the autentication of the user
      * @param  {string} username username or email of the user
      * @param  {string} password password in plain text
-     * @return {Object}          promise with the user model information
+     * @return {Promise}          promise with the user model information
      */
   static authVerify(username, password) {
     return new Promise( (resolve, reject) => {
@@ -162,16 +162,16 @@ class Auth {
 
   /**
      * Generate a token with username and the usergroup user
-     * @param  {[type]} username  username of the user
-     * @param  {[type]} usergroup user group permisions
-     * @param  {[type]} password  password hash with sha256
-     * @return {[type]}           return a jwt token
+     * @param  {string} username  username of the user
+     * @param  {number} usergroup user group permisions
+     * @param  {string} password  password hash with sha256
+     * @return {string}           return a jwt token
      */
   static generateToken(username, usergroup, password) {
     return jwt.sign({
       username: username,
       usergroup: usergroup
-    }, password, { expiresIn: '1h'});
+    }, password, { expiresIn: '24h'});
   }
 
   /**
@@ -199,12 +199,13 @@ class Auth {
   }
 
   /**
-     * [loginSTD description]
-     * @param  {[type]} username [description]
-     * @param  {[type]} email    [description]
-     * @param  {[type]} name     [description]
-     * @param  {[type]} token    [description]
-     * @return {[type]}          [description]
+     * Login an user student in our platform generated a user with the information recived from
+     * the idp
+     * @param  {string} username username of the user
+     * @param  {string} email    email of the user
+     * @param  {string} name     real name of the user
+     * @param  {string} token    token information from the idp
+     * @return {Promise}          auth token of the user.
      */
   static loginSTD(username, email, name, token) {
     return new Promise( (resolve, reject) => {
@@ -243,7 +244,10 @@ class Auth {
               reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true));
             else {
               if ( response.username === decoded.username && response.usergroups_id === decoded.usergroup && decoded.usergroup === usergroup)
-                resolve( new message('login-verify', 'Users', HTTP.STATUS_OK, MESSAGE.OK, false) );
+                resolve( {
+                  message: new message('login-verify', 'Users', HTTP.STATUS_OK, MESSAGE.OK, false),
+                  user: response
+                });
               else
                 reject( new message('login-verify', 'Users', HTTP.STATUS_UNAUTHORIZED, MESSAGE.AUTH_TOKEN_FAIL, true) );
             }

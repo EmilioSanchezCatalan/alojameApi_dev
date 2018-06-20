@@ -3,19 +3,19 @@ module.exports = (sequelize, DataTypes) => {
   var HomeRules = sequelize.define('HomeRules', {
     text: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         len: [0, 100],
         notEmpty: true,
-        notNull: true
       }
     },
     type: DataTypes.INTEGER,
     homes_id:{
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     }
   }, {});

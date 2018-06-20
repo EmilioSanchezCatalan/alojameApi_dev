@@ -11,7 +11,7 @@ router.all('*', (req, res, next) => {
     .then( () => {
       next();
     }).catch( error => {
-      res.send(error);
+      res.status(401).send(error);
     });
 });
 

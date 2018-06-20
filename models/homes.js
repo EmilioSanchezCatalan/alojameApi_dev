@@ -3,14 +3,15 @@ module.exports = (sequelize, DataTypes) => {
   var Homes = sequelize.define('Homes', {
     title: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        notNull: true,
         len: [0, 70],
         notEmpty: true,
       }
     },
     metres: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1
@@ -18,42 +19,42 @@ module.exports = (sequelize, DataTypes) => {
     },
     num_roomers_total: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     typehomes_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     typerent: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 3,
         min: 1,
-        notNull: true
       }
     },
     num_bedroom: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     num_bathroom: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     num_livingroom: {
@@ -65,52 +66,48 @@ module.exports = (sequelize, DataTypes) => {
     },
     num_kitchen: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     address: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        notNull: true,
         len: [0, 255],
         notEmpty: true
       }
     },
     num_door: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     zip: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     smokers: {
       type: DataTypes.BOOLEAN,
-      validate: {
-        notNull: true
-      }
+      allowNull: false,
     },
     pets: {
       type: DataTypes.BOOLEAN,
-      validate: {
-        notNull: true
-      }
+      allowNull: false,
     },
     price: {
       type: DataTypes.FLOAT,
+      allowNull: false,
       validate: {
-        notNull: true,
         min: 0,
         max: 2147483647
       }
@@ -120,22 +117,18 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     fiance: {
       type: DataTypes.FLOAT,
       validate: {
-        notNull: true,
         min: 0,
         max: 2147483647
       }
     },
     delete: {
       type: DataTypes.BOOLEAN,
-      validate: {
-        notNull:true
-      }
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
@@ -146,26 +139,34 @@ module.exports = (sequelize, DataTypes) => {
     },
     num_roomers_actual: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
-        min: 1,
-        notNull: true
+        min: 0,
       }
     },
     cities_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     num_home: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        max: 2147483647,
+        min: 0,
+      }
+    },
+    users_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     available_date: DataTypes.DATE
@@ -188,7 +189,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         name: 'homes_id'
       },
-      as: 'HomePictures_Hass_Homes',
       through: 'HomePictures_Has_Homes'
     });
 
@@ -215,18 +215,17 @@ module.exports = (sequelize, DataTypes) => {
     models.Homes.belongsTo(models.HomeType, {
       onDelete: 'CASCADE',
       foreignKey: {
-        allowNull: false
+        allowNull: false,
+        name: 'typehomes_id'
       }
     });
 
-    models.Homes.belongsToMany(models.Users, {
+    models.Homes.belongsTo(models.Users, {
       onDelete: 'CASCADE',
       foreignKey: {
         allowNull: false,
-        name: 'homes_id'
-      },
-      as: 'Users_Hass_Homes',
-      through: 'Users_Has_Homes'
+        name: 'users_id'
+      }
     });
 
     models.Homes.belongsToMany(models.Users, {
