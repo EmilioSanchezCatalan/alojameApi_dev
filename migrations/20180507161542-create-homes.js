@@ -48,7 +48,7 @@ module.exports = {
       },
       num_door: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       zip: {
         allowNull: false,
@@ -106,6 +106,10 @@ module.exports = {
           model: 'Users',
           key: 'id'
         }
+      },
+      num_floor: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

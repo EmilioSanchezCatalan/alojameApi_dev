@@ -27,7 +27,14 @@ const MESSAGE = {
   // Username must be unique
   'USERNAME_UNIQUE': 'El nombre de usuario ya esta en uso',
 
+  // Email bad format
   'EMAIL_BAD_FORMAT': 'El campo email no tiene el formato correcto',
+
+  // Home edited
+  'HOME_EDITED_OK': 'Alojamiento editado correctament',
+
+  // Home removed
+  'HOME_REMOVED_OK': 'Alojamiento borrado correctamente',
 
   empty(value) {
     return 'El campo ' + value + ' no puede estar vacio';

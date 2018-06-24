@@ -81,11 +81,11 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     num_door: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        max: 2147483647,
-        min: 1,
+        notEmpty: true,
+        len: [0, 255]
       }
     },
     zip: {
@@ -169,17 +169,21 @@ module.exports = (sequelize, DataTypes) => {
         min: 1,
       }
     },
+    num_floor: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        max: 2147483647,
+        min: 0,
+      }
+    },
     available_date: DataTypes.DATE
   }, {});
   Homes.associate = function(models) {
 
     models.Homes.belongsToMany(models.HomeBill, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'homes_id'
-      },
-      as: 'HomeBill_Hass_Homes',
+      foreignKey: 'homes_id',
       through: 'HomeBill_Has_Homes'
     });
 
@@ -204,11 +208,7 @@ module.exports = (sequelize, DataTypes) => {
 
     models.Homes.belongsToMany(models.HomeServices, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'homes_id'
-      },
-      as: 'Homeservices_Hass_Homes',
+      foreignKey:'homes_id',
       through: 'Homeservices_Has_Homes'
     });
 
@@ -222,10 +222,7 @@ module.exports = (sequelize, DataTypes) => {
 
     models.Homes.belongsTo(models.Users, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'users_id'
-      }
+      foreignKey: 'users_id'
     });
 
     models.Homes.belongsToMany(models.Users, {

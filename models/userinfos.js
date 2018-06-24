@@ -163,17 +163,12 @@ module.exports = (sequelize, DataTypes) => {
 
     models.Userinfos.belongsTo(models.Users, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        name: 'users_id'
-      }
+      foreignKey: 'users_id'
     });
 
     models.Userinfos.belongsTo(models.UserPicture, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        name: 'userpicture_id'
-      }
-
+      foreignKey: 'userpicture_id'
     });
   };
   return Userinfos;

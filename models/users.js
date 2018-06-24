@@ -48,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    delete: DataTypes.BOOLEAN,
     usergroups_id: DataTypes.INTEGER,
     last_login: DataTypes.DATE,
     authtoken: DataTypes.STRING
@@ -56,10 +57,7 @@ module.exports = (sequelize, DataTypes) => {
 
     models.Users.hasOne(models.Userinfos, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'users_id'
-      }
+      foreignKey: 'users_id'
     });
 
     models.Users.belongsTo(models.UsersGroup, {

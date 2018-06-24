@@ -43,6 +43,7 @@ class Auth {
         username: username,
         email: email,
         password: this.hashPassword(passsword),
+        delete: false,
         usergroups_id: ROLS.OWNER_GROUP
       }).then( response => {
         models.Userinfos.create({
@@ -108,6 +109,7 @@ class Auth {
         defaults: {
           username: username,
           email: email,
+          delete: false,
           password: this.hashPassword(username),
           usergroups_id: ROLS.STUDENT_GROUP
         }
@@ -148,6 +150,7 @@ class Auth {
       models.Users.findOne({
         where: {
           usergroups_id: ROLS.OWNER_GROUP,
+          delete: false,
           password: this.hashPassword(password),
           [Op.or]: [
             { username: username },

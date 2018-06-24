@@ -31,6 +31,10 @@ module.exports = {
           key: 'id'
         }
       },
+      delete: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
       last_login: {
         type: Sequelize.DATE
       },

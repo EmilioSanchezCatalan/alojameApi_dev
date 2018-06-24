@@ -39,9 +39,7 @@ module.exports = (sequelize, DataTypes) => {
 
     models.UserPicture.hasMany(models.Userinfos, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        name: 'userpicture_id'
-      }
+      foreignKey: 'userpicture_id'
     });
 
   };
