@@ -17,6 +17,9 @@ module.exports = {
       birthdate: {
         type: Sequelize.DATE
       },
+      phone: {
+        type: Sequelize.STRING
+      },
       gender: {
         type: Sequelize.STRING(20)
       },
@@ -59,6 +62,15 @@ module.exports = {
         allowNull: true,
         references: {
           model: 'UserPictures',
+          key: 'id'
+        }
+      },
+      cities_id: {
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        allowNull: true,
+        references: {
+          model: 'Cities',
           key: 'id'
         }
       },

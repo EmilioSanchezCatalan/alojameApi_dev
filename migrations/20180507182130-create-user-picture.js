@@ -16,11 +16,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      temp: {
-        allowNull: false,
-        type: Sequelize.STRING
-      },
-      urltemp: {
+      filetype: {
         allowNull: false,
         type: Sequelize.STRING
       },
@@ -34,7 +30,7 @@ module.exports = {
       }
     });
   },
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('UserPictures');
   }
 };

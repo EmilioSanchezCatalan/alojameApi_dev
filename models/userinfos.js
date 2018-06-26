@@ -46,11 +46,25 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    phone: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [0, 50],
+        notEmpty: true
+      }
+    },
     homeaddress: {
       type: DataTypes.STRING,
       validate: {
         len: [0, 255],
         notEmpty: true
+      }
+    },
+    cities_id: {
+      type: DataTypes.INTEGER,
+      validate: {
+        min: 0,
+        max: 2147483647
       }
     },
     feature_partying: {

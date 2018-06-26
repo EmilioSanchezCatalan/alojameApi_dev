@@ -21,6 +21,12 @@ const MESSAGE = {
   // ilegal age
   'USER_ILEGAL_AGE': 'Es necesario ser mayor de edad',
 
+  // user updated correct
+  'USER_EDIT': 'Información del usuario actualizada correctamente',
+
+  // user update img
+  'USER_IMG_UPDATE': 'Imagen actualizada correctamente',
+
   // Email must be unique
   'EMAIL_UNIQUE': 'El email ya esta en uso',
 
