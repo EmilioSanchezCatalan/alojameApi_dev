@@ -21,10 +21,12 @@ router.get('/login',
 router.post('/login/callback',
   passport.authenticate('saml', { failureRedirect: '/login/fail' }),
   function(req, res) {
-    console.log(req.user);
     auth.loginSTD(req.user.uid, req.user.email, req.user.name, req.user.sessionIndex)
       .then( response => {
-        res.send(response);
+        res.writeHead(301,
+          { Location: ('http://localhost:4200/private/student/login-success?authToken=' + response.token) }
+        );
+        res.end();
       }).catch( error => {
         res.send(error);
       });
