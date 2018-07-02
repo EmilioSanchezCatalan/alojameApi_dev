@@ -242,6 +242,11 @@ module.exports = (sequelize, DataTypes) => {
         name: 'homes_id'
       }
     });
+
+    models.Homes.belongsTo(models.Cities, {
+      onDelete: 'CASCADE',
+      foreignKey: 'cities_id'
+    });
   };
   return Homes;
 };

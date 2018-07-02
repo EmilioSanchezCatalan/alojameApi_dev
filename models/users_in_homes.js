@@ -3,25 +3,23 @@ module.exports = (sequelize, DataTypes) => {
   var Users_In_Homes = sequelize.define('Users_In_Homes', {
     users_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     homes_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       validate: {
         max: 2147483647,
         min: 1,
-        notNull: true
       }
     },
     roomer: {
       type: DataTypes.BOOLEAN,
-      validate: {
-        notNull: true
-      }
+      allowNull: false
     }
   }, {});
   Users_In_Homes.associate = function() {

@@ -52,5 +52,16 @@ router.get('/home-types', function(req, res) {
   });
 });
 
+router.get('/address-suggestion', function(req, res){
+  models.Homes.findAll({
+    attributes: ['address'],
+    group: ['address']
+  }).then(response => {
+    res.send(response);
+  }).catch(error => {
+    res.status(400).send(error);
+  });
+});
+
 
 module.exports = router;

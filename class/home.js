@@ -4,7 +4,9 @@ var
 
 const
   MESSAGE = require('./messages-response'),
-  HTTP = require('./http-status-codes');
+  HTTP = require('./http-status-codes'),
+  Sequelize = require('sequelize'),
+  OP = Sequelize.Op;
 
 class Home {
   constructor() {}
@@ -280,6 +282,71 @@ class Home {
         reject(error);
       });
     });
+  }
+
+  /**
+   * Where filter for the search browser
+   * @param  {Object} queryParams the queryParams recived
+   * @return {Object}             the where condition to apply
+   */
+  static filtersWhere(queryParams) {
+    let whereConditions = { delete: false };
+    Object.keys(queryParams).forEach((value) => {
+      switch(value) {
+      case 'city':
+        whereConditions.cities_id = queryParams[value];
+        break;
+      case 'address':
+        whereConditions.address = queryParams[value];
+        break;
+      case 'price_min':
+        whereConditions.price = { [OP.gte]: queryParams[value] };
+        break;
+      case 'price_max':
+        whereConditions.price = { [OP.lte]: queryParams[value] };
+        break;
+      case 'nRooms':
+        whereConditions.num_bedroom = queryParams[value];
+        break;
+      case 'nBath':
+        whereConditions.num_bathroom = queryParams[value];
+        break;
+      case 'nKitchen':
+        whereConditions.num_kitchen = queryParams[value];
+        break;
+      case 'nLiving':
+        whereConditions.num_livingroom = queryParams[value];
+        break;
+      case 'smoke':
+        whereConditions.smokers = queryParams[value] === 'true' ? true : false;
+        break;
+      case 'pets':
+        whereConditions.pets = queryParams[value] === 'true' ? true : false;
+        break;
+      case 'date_in':
+        break;
+      case 'rentType':
+        whereConditions.typerent = { [OP.in]: queryParams[value] };
+        break;
+      case 'homeType':
+        whereConditions.typehomes_id = { [OP.in]: queryParams[value] };
+        break;
+      }
+    });
+    return whereConditions;
+  }
+
+  /**
+   * Where filter for the relationship between Homes and Services
+   * @param  {Object} queryParams the queryParams recived
+   * @return {Object}             the where condition to apply
+   */
+  static filtersWhereService(queryParams) {
+    if(queryParams['homeService']){
+      let whereConditions = { id: { [OP.in]: queryParams['homeService'] } };
+      return whereConditions;
+    }
+    return true;
   }
 }
 

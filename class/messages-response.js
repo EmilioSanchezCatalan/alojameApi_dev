@@ -42,6 +42,15 @@ const MESSAGE = {
   // Home removed
   'HOME_REMOVED_OK': 'Alojamiento borrado correctamente',
 
+  // User already subscribe at home
+  'USER_SUBSCIBE_EXIST': 'Ya está subscrito a este alojamiento',
+
+  // User already is a roomer of a home
+  'USER_IN_HOME': 'Al ya pertenecer a un piso, no puede enviar mas solicitudes, primero debe de dejar el piso en el que se encuentra',
+
+  // User subscribe at home
+  'USER_SUBSCIBE_OK': 'Se ha enviado su peticion al piso, correctamente',
+
   empty(value) {
     return 'El campo ' + value + ' no puede estar vacio';
   }
