@@ -36,5 +36,50 @@ router.get('/subscribe/:id', (req, res) => {
   });
 });
 
+router.get('/homes-subscribed', (req, res) => {
+  models.Homes.findAll({
+    attributes: ['id', 'title', 'price', 'num_roomers_total', 'typerent'],
+    where : {
+      delete: false
+    },
+    include: [
+      {
+        model: models.Users,
+        as: 'roomers',
+        where: {
+          id: req.user.id
+        },
+        attributes: [],
+        through: { attributes: [] }
+      },
+      {
+        model: models.HomeType,
+        attributes: ['id', 'name']
+      },
+      {
+        model: models.HomePictures,
+        attributes: ['id', 'url'],
+        through: { attributes: [] }
+      }
+    ]
+  }).then(response => {
+    res.send(response);
+  }).catch(error => {
+    res.send(error);
+  });
+});
+
+router.get('/homes-desubscribed/:id', (req, res) => {
+  models.Users_In_Homes.destroy({
+    where: {
+      users_id: req.user.id,
+      homes_id: req.params.id
+    }
+  }).then(() => {
+    res.send(new message('desSubscribe', 'Home', HTTP.STATUS_OK, MESSAGE.USER_DESUBSCRIBE_OK, false) );
+  }).catch(error => {
+    res.status(400).send(error);
+  });
+});
 
 module.exports = router;

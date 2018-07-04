@@ -77,11 +77,7 @@ module.exports = (sequelize, DataTypes) => {
 
     models.Users.belongsToMany(models.Homes, {
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'users_id'
-      },
-      as: 'Users_Inn_Homes',
+      foreignKey: 'users_id',
       through: 'Users_In_Homes'
     });
 

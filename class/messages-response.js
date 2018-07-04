@@ -51,6 +51,10 @@ const MESSAGE = {
   // User subscribe at home
   'USER_SUBSCIBE_OK': 'Se ha enviado su peticion al piso, correctamente',
 
+  // User desubsribe home
+  'USER_DESUBSCRIBE_OK': 'Se a eliminado su subscribción correctamente',
+
+
   empty(value) {
     return 'El campo ' + value + ' no puede estar vacio';
   }
