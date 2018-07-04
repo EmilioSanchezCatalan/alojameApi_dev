@@ -4,7 +4,8 @@ var
   auth = require('../../class/auth');
 
 var
-  homeRouter = require('./student/home');
+  homeRouter = require('./student/home'),
+  userRouter = require('./student/user');
 
 const
   ROLS = require('../../class/users-rols');
@@ -20,5 +21,6 @@ router.all('*', (req, res, next) => {
 });
 
 router.use('/home', homeRouter);
+router.use('/user', userRouter);
 
 module.exports = router;
