@@ -3,7 +3,10 @@ var
   router = express.Router(),
   message = require('../../../class/message'),
   models = require('../../../models'),
-  uploadImg = require('../../../class/upload-img');
+  user = require('../../../class/user'),
+  uploadImg = require('../../../class/upload-img'),
+  Sequelize = require('sequelize'),
+  OP = Sequelize.Op;
 
 const
   MESSAGE = require('../../../class/messages-response'),
@@ -35,7 +38,7 @@ router.post('/addImg', (req, res) => {
 
 router.get('/my-profile', (req, res) => {
   models.Users.findOne({
-    attributes: ['id', 'username', 'email'],
+    attributes: ['id', 'username', 'email', 'usergroups_id'],
     where: {
       id: req.user.id,
       delete: false
@@ -90,6 +93,64 @@ router.post('/my-profile', (req, res) => {
     }).catch( error => {
       res.status(400).send(error);
     });
+});
+
+router.get('/user-profile/:id', (req, res) => {
+  models.Users.findOne({
+    attributes: ['id', 'username', 'email'],
+    where: {
+      id: req.params.id,
+      delete: false
+    },
+    include: [
+      {
+        model: models.Userinfos,
+        include: [
+          {
+            model: models.UserPicture,
+            attributes: ['id', 'url']
+          }
+        ]
+      }
+    ]
+  }).then(response =>{
+    res.send(user.parsePrivateUserInfo(response));
+  }).catch(error => {
+    res.status(400).send(error);
+  });
+});
+
+router.get('/conversation-user/:id', (req, res) => {
+  models.Users_Message_Users.findAll({
+    where: {
+      [OP.or]: [
+        {
+          users_recv: req.user.id,
+          users_send: req.params.id
+        },
+        {
+          users_recv: req.params.id,
+          users_send: req.user.id
+        }
+      ]
+    }
+  }).then(response => {
+    res.send(response);
+  }).catch(error =>{
+    res.status(400).send(error);
+  });
+});
+
+router.post('/send-message/:id', (req, res) => {
+  models.Users_Message_Users.create({
+    users_send: req.user.id,
+    users_recv: req.params.id,
+    message: req.body.message
+  }).then(() => {
+    res.send(new message('edit', 'Users', HTTP.STATUS_OK, MESSAGE.MESSAGE_SEND_SUCCESS, false));
+  }).catch(error => {
+    res.status(400).send(error);
+  });
 });
 
 module.exports = router;

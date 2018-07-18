@@ -76,6 +76,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     models.Users.belongsToMany(models.Homes, {
+      as: 'roomers',
       onDelete: 'CASCADE',
       foreignKey: 'users_id',
       through: 'Users_In_Homes'
@@ -91,24 +92,16 @@ module.exports = (sequelize, DataTypes) => {
       through: 'Users_Valoration_Homes'
     });
 
-    models.Users.belongsToMany(models.Users, {
+    models.Users.hasMany(models.Users_Message_Users, {
+      as: 'sender',
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'users_send'
-      },
-      as: 'Users_Messages_Users1',
-      through: 'Users_Message_Users'
+      foreignKey: 'users_send'
     });
 
-    models.Users.belongsToMany(models.Users, {
+    models.Users.hasMany(models.Users_Message_Users, {
+      as: 'recived',
       onDelete: 'CASCADE',
-      foreignKey: {
-        allowNull: false,
-        name: 'users_recv'
-      },
-      as: 'Users_Messages_Users2',
-      through: 'Users_Message_Users'
+      foreignKey: 'users_recv'
     });
 
     models.Users.belongsToMany(models.Users, {

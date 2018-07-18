@@ -348,6 +348,25 @@ class Home {
     }
     return true;
   }
+
+  static checkOwnHome(homes_id, users_id){
+    return new Promise( (resolve, reject) => {
+      models.Homes.findOne({
+        where: {
+          id: homes_id,
+          users_id: users_id
+        }
+      }).then(response => {
+        if (response) {
+          resolve();
+        } else {
+          reject(new message('auth', 'Home', HTTP.STATUS_BAD_REQUEST, MESSAGE.OK, true));
+        }
+      }).catch(error => {
+        reject(error);
+      });
+    });
+  }
 }
 
 module.exports = Home;

@@ -22,8 +22,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, {});
-  Users_In_Homes.associate = function() {
-    // associations can be defined here
+  Users_In_Homes.associate = function(models) {
+    models.Users_In_Homes.belongsTo(models.Homes, {
+      onDelete: 'CASCADE',
+      foreignKey: 'users_id'
+    });
   };
   return Users_In_Homes;
 };

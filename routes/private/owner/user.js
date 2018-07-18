@@ -3,7 +3,10 @@ var
   router = express.Router(),
   models = require('../../../models'),
   message = require('../../../class/message'),
-  uploadImg = require('../../../class/upload-img');
+  user = require('../../../class/user'),
+  uploadImg = require('../../../class/upload-img'),
+  Sequelize = require('sequelize'),
+  OP = Sequelize.Op;
 
 const
   MESSAGE = require('../../../class/messages-response'),
@@ -35,7 +38,7 @@ router.post('/addImg', (req, res) => {
 
 router.get('/my-profile', (req, res) => {
   models.Users.findOne({
-    attributes: ['id', 'username', 'email'],
+    attributes: ['id', 'username', 'email', 'usergroups_id'],
     where: {
       id: req.user.id,
       delete: false
@@ -78,10 +81,92 @@ router.post('/my-profile', (req, res) => {
     country_private: req.body.Userinfo.country_private
   }, { where: { users_id: req.user.id }})
     .then(() => {
-      res.send( new message('edit', 'Users', HTTP.STATUS_OK, MESSAGE.USER_EDIT, false));
+      res.send(new message('edit', 'Users', HTTP.STATUS_OK, MESSAGE.USER_EDIT, false));
     }).catch( error => {
       res.status(400).send(error);
     });
+});
+
+router.get('/profile-user/:id', (req, res) => {
+  models.Users.findOne({
+    attributes: ['id', 'username', 'email', 'usergroups_id'],
+    where: {
+      id: req.params.id,
+      delete: false
+    },
+    include: [
+      {
+        model: models.Userinfos,
+        include: [
+          {
+            model: models.UserPicture,
+            attributes: ['id', 'url']
+          }
+        ]
+      }
+    ]
+  }).then(response => {
+    res.send(user.parsePrivateUserInfo(response));
+  }).catch(error =>{
+    res.status(400).send(error);
+  });
+});
+
+router.get('/conversation-user/:id', (req, res) => {
+  models.Users_Message_Users.findAll({
+    where: {
+      [OP.or]: [
+        {
+          users_recv: req.user.id,
+          users_send: req.params.id
+        },
+        {
+          users_recv: req.params.id,
+          users_send: req.user.id
+        }
+      ]
+    }
+  }).then(response => {
+    res.send(response);
+  }).catch(error =>{
+    res.status(400).send(error);
+  });
+});
+
+router.post('/send-message/:id', (req, res) => {
+  models.Users_Message_Users.create({
+    users_send: req.user.id,
+    users_recv: req.params.id,
+    message: req.body.message
+  }).then(() => {
+    res.send(new message('edit', 'Users', HTTP.STATUS_OK, MESSAGE.MESSAGE_SEND_SUCCESS, false));
+  }).catch(error => {
+    res.status(400).send(error);
+  });
+});
+
+router.get('/conversations', (req, res) => {
+  models.Users_Message_Users.findAll({
+    // attributes: ['users_recv', 'createdAt'],
+    where: {
+      users_send: req.user.id,
+    },
+    // include: [
+    //   {
+    //     model: models.User,
+    //     as: 'sender'
+    //   }
+    // ],
+    order: [
+      ['createdAt', 'DESC']
+    ],
+    // group: ['users_recv']
+
+  }).then(response => {
+    res.send(response);
+  }).catch(error =>{
+    res.send(error);
+  });
 });
 
 module.exports = router;

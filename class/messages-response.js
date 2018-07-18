@@ -54,6 +54,26 @@ const MESSAGE = {
   // User desubsribe home
   'USER_DESUBSCRIBE_OK': 'Se a eliminado su subscribción correctamente',
 
+  // User is a roomer of a home
+  'USER_IS_A_ROOMER': 'El usuario ya es inquilino de una vivienda',
+
+  // User not have a roomer
+  'USER_NOT_IS_ROOMER': 'El usuario no es inquilino de una vivienda',
+
+  // User is asigned to a roomer
+  'USER_ROOMER_SUCCESS': 'El usuario a pasado a ser inquilino de la vivienda correctamente',
+
+  // roomer remove successfully
+  'ROOMER_REMOVE_SUCEES': 'El inquilino ha sido eliminado del piso correctamente',
+
+  // user subscription denied
+  'USER_SUBSCIBE_DENIED': 'El usuario ha sido rechazado como posible inquilino',
+
+  // Error user auth in home
+  'USER_ERROR_AUTH': 'Lo sentimo pero no puede actuar sobre viviendas de las que no es propietario',
+
+  // Message send successfully
+  'MESSAGE_SEND_SUCCESS': 'El mensaje ha sido enviado correctamente',
 
   empty(value) {
     return 'El campo ' + value + ' no puede estar vacio';
